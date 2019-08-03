@@ -2,10 +2,12 @@
 Processes images in bulk for renaming, cropping, and resizing.
 
 Usage:
+```
 python main.py --src <source pattern> --out <output directory> [--mode <mode>]
+```
 
-- src: The input files to process. Parsed with python's glob module; should look something like "SourceDirectory/*.png"
-- out: The output directory. Use \<path\> as the relative path to the source file's parent directory, e.g. "\<path\>/out".
+- src: The input files to process. Parsed with python's glob module; should look something like `"SourceDirectory/*.png"`
+- out: The output directory. Use `<path>` as the relative path to the source file's parent directory, e.g. `"<path>/out"`.
 - mode: The mode that determines how images are processed and renamed. Currently defaults to the only supported mode, "eternal_draft".
 
 Modes:
