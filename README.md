@@ -15,4 +15,4 @@ Assumes input images are a 16x9 aspect ratio. Crops the image to the visible car
 Names images like "02_p1p2.jpg".
 
 Requirements:
-Must have Python Image Library installe. Get it with "pip install pillow".
+Uses Python 3. Must have Python Image Library installed. Get it with "pip install pillow".
