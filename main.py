@@ -6,6 +6,14 @@ import os
 import importlib
 import utilities.images
 
+class ImageInfo:
+	def __init__(self, src_file_name, out_file_name):
+		self.src_file = src_file_name
+		self.out_file = out_file_name
+
+	def __str__(self):
+		return self.out_file
+
 def get_input_files(glob_pattern):
 	files = glob.glob(glob_pattern)
 	return [os.path.relpath(file) for file in files]
@@ -29,16 +37,19 @@ def get_output_files(output_directory, input_files, name_func):
 
 		src_image = Image.open(in_file)
 		if not utilities.images.are_images_equal(src_image, prev_src_image):
-			result.append(os.path.join(out_path, out_name))
+			image_info = ImageInfo(in_file, os.path.join(out_path, out_name))
+			result.append(image_info)
 			prev_src_image = src_image
 			output_index += 1
+		else:
+			print("skipped duplicate image")
 
 	print("output files: %s" % (result))
 
 	# Make sure needed directories exist
 	dirs_to_create = set()
-	for out_file in result:
-		out_dir = os.path.dirname(out_file)
+	for info in result:
+		out_dir = os.path.dirname(info.out_file)
 		dirs_to_create.add(out_dir)
 
 	for out_dir in dirs_to_create:
@@ -57,13 +68,13 @@ def run(in_glob_pattern, out_dir_pattern, mode_module):
 
 	out_index = 0
 	prev_src_image = None
-	for src_index, src_file in enumerate(in_files):
-		src_image = Image.open(src_file)
+	for index, info in enumerate(out_files):
+		src_image = Image.open(info.src_file)
 
-		is_last = src_index == len(in_files) - 1
+		is_last = index == len(out_files) - 1
 		out_image = mode_module.image(src_image)
 		if out_image:
-			dest_file = out_files[out_index]
+			dest_file = info.out_file
 			print("Saving %s" % (dest_file))
 			out_image.save(dest_file)
 			out_index += 1

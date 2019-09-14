@@ -15,7 +15,14 @@ def image(src_image):
 	src_box = (src_image.width, src_image.height, src_image.width, src_image.height)
 	actual_box = [int(rel_val * size_val) for rel_val, size_val in zip(rel_box, src_box)]
 
+	print("src_box:", src_box, "actual_box:", actual_box)
+
 	result = src_image.crop(box=actual_box)
-	result = result.resize(utilities.images.scale_to_size(result.width, result.height, 800, 800))
+
+	print("result width:", result.width, "result height: ", result.height)
+
+	target_size = 1200
+	if result.width > target_size or result.height > target_size:
+		result = result.resize(utilities.images.scale_to_size(result.width, result.height, 800, 800))
 
 	return result
